@@ -186,8 +186,8 @@ if shut_in is False:
                          norm_density, reinj_flow, 0, 0)
 
     if is_leak is True:
-        for val in leak_pdrop_array:
-            sleep(2)
+        if steps <= 0:
+            val = leak_pdrop
             locations, pressures, flow_up, flow_down = mfm.leak_noleak_pressures_flows(upstream_pressure, noLeakFlow,
                                                                                        is_leak=True,
                                                                                        leak_loc=leak_location,
@@ -200,6 +200,21 @@ if shut_in is False:
                              prod_temp_KBS, prod_temp_FSD, prod_temp_MCK, soil_temp_seg1, soil_temp_seg2,
                              soil_temp_seg3,
                              norm_density, reinj_flow, leak_location, val)
+        else:
+            for val in leak_pdrop_array:
+                sleep(2)
+                locations, pressures, flow_up, flow_down = mfm.leak_noleak_pressures_flows(upstream_pressure, noLeakFlow,
+                                                                                           is_leak=True,
+                                                                                           leak_loc=leak_location,
+                                                                                           leak_dp=val, shut_in=False)
+
+                dict_PT_tag_loc, dict_PT_tag_station, dict_PT_tag_value = create_pressure_values(locations, pressures,
+                                                                                                 flow_up, norm_density)
+
+                write_opc_values(dict_PT_tag_loc, dict_PT_tag_station, dict_PT_tag_value, flow_up, flow_down, prod_temp_MKT,
+                                 prod_temp_KBS, prod_temp_FSD, prod_temp_MCK, soil_temp_seg1, soil_temp_seg2,
+                                 soil_temp_seg3,
+                                 norm_density, reinj_flow, leak_location, val)
 elif shut_in is True:
     if is_leak is False:
         locations, pressures, flow_up, flow_down = mfm.leak_noleak_pressures_flows(upstream_pressure, noLeakFlow,

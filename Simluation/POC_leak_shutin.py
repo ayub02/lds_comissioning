@@ -12,8 +12,8 @@ from datetime import datetime
 def publislhBuffer(key, _val, _topic=None):
     print(_topic, '\t', key, '\t', round(_val, 4))
     buff = json.dumps({key: _val})
-    ret = mqttclient.publish(_topic, payload=buff, qos=1)
-    ret.wait_for_publish()
+    # ret = mqttclient.publish(_topic, payload=buff, qos=1)
+    # ret.wait_for_publish()
 
 
 def op_density(_norm_density, pressure, temp):
