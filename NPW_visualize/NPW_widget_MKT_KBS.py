@@ -100,10 +100,20 @@ def new_update_listbox(_lbx, _log, _tag):
         _lbx.df = pd.DataFrame(_dfData, columns=['OPC_Tag', 'Buffer', 'OPC_timestamp', 'Pressure_values',
                                                  'Buffer_timestamp'])
         for val in _lbx.df['OPC_timestamp']:
-            _lbx.insert(END, val.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3])
+            _lbx.insert(END, val.strftime('%Y-%m-%d %H:%M:%S'))                                         # Important
 
 
 def update_listbox():
+    # new_update_listbox(lbx1, log1, 'NPW_array_PT_2003')
+    # new_update_listbox(lbx2, log2, 'NPW_array_PT_61')
+    # new_update_listbox(lbx3, log3, 'NPW_array_PT_62')
+    # new_update_listbox(lbx4, log4, 'NPW_array_PT_63')
+    # new_update_listbox(lbx5, log5, 'NPW_array_PT_64')
+    # new_update_listbox(lbx6, log6, 'NPW_array_PT_65')
+    # new_update_listbox(lbx7, log7, 'NPW_array_PT_66')
+    # new_update_listbox(lbx8, log8, 'NPW_array_PT_66A')
+    # new_update_listbox(lbx9, log9, 'NPW_array_PT_3025')
+
     new_update_listbox(lbx1, log1, 'MKT.NPW.ByteArray')
     new_update_listbox(lbx2, log2, 'BV61.NPW.ByteArray')
     new_update_listbox(lbx3, log3, 'BV62.NPW.ByteArray')
@@ -185,7 +195,7 @@ def newPlot(_overlay, _export=False):
             print('File write successful \t\t', _filename)
 
     else:
-        _pd_Timestamp = pd.Timestamp(datetime.strptime(_lbx.get(_idx), '%Y-%m-%d %H:%M:%S.%f'))
+        _pd_Timestamp = pd.Timestamp(datetime.strptime(_lbx.get(_idx), '%Y-%m-%d %H:%M:%S'))
         func_plot(_lbx.df['OPC_Tag'][_lbx.df['OPC_timestamp'] == _pd_Timestamp].tolist()[0],
                   _lbx.df['Buffer'][_lbx.df['OPC_timestamp'] == _pd_Timestamp].tolist()[0],
                   _lbx.df['OPC_timestamp'][_lbx.df['OPC_timestamp'] == _pd_Timestamp].tolist()[0],
@@ -194,12 +204,12 @@ def newPlot(_overlay, _export=False):
                   _on_existing=_overlay)
 
 
-def lbx_select(_event):
-    _lbx = _event.widget
-    _idx = _lbx.curselection()
-    if _idx:
-        if _lbx.get(_idx):
-            _pd_Timestamp = pd.Timestamp(datetime.strptime(_lbx.get(_idx), '%Y-%m-%d %H:%M:%S.%f'))
+# def lbx_select(_event):
+#     _lbx = _event.widget
+#     _idx = _lbx.curselection()
+#     if _idx:
+#         if _lbx.get(_idx):
+#             _pd_Timestamp = pd.Timestamp(datetime.strptime(_lbx.get(_idx), '%Y-%m-%d %H:%M:%S.%f'))
 
 
 def next_plot():
@@ -421,7 +431,7 @@ label_5 = Label(root, text="BV64", justify=CENTER).grid(row=0, column=4)
 label_6 = Label(root, text="BV65", justify=CENTER).grid(row=0, column=5)
 label_7 = Label(root, text="BV66", justify=CENTER).grid(row=0, column=6)
 label_8 = Label(root, text="BV66A", justify=CENTER).grid(row=0, column=7)
-label_9 = Label(root, text="KBS", justify=CENTER).grid(row=0, column=8)
+label_9 = Label(root, text="KBS_3025", justify=CENTER).grid(row=0, column=8)
 
 mBoxColor = 'pale green'
 mBox1 = Label(root, textvariable=log1, height=1, width=22, anchor="w", bg=mBoxColor).grid(row=4, column=0, sticky='w')
@@ -478,14 +488,14 @@ lbx7.config(yscrollcommand=sbr7.set)
 lbx8.config(yscrollcommand=sbr8.set)
 lbx9.config(yscrollcommand=sbr9.set)
 
-lbx1.bind('<<ListboxSelect>>', lbx_select)
-lbx2.bind('<<ListboxSelect>>', lbx_select)
-lbx3.bind('<<ListboxSelect>>', lbx_select)
-lbx4.bind('<<ListboxSelect>>', lbx_select)
-lbx5.bind('<<ListboxSelect>>', lbx_select)
-lbx6.bind('<<ListboxSelect>>', lbx_select)
-lbx7.bind('<<ListboxSelect>>', lbx_select)
-lbx8.bind('<<ListboxSelect>>', lbx_select)
-lbx9.bind('<<ListboxSelect>>', lbx_select)
+# lbx1.bind('<<ListboxSelect>>', lbx_select)
+# lbx2.bind('<<ListboxSelect>>', lbx_select)
+# lbx3.bind('<<ListboxSelect>>', lbx_select)
+# lbx4.bind('<<ListboxSelect>>', lbx_select)
+# lbx5.bind('<<ListboxSelect>>', lbx_select)
+# lbx6.bind('<<ListboxSelect>>', lbx_select)
+# lbx7.bind('<<ListboxSelect>>', lbx_select)
+# lbx8.bind('<<ListboxSelect>>', lbx_select)
+# lbx9.bind('<<ListboxSelect>>', lbx_select)
 
 root.mainloop()

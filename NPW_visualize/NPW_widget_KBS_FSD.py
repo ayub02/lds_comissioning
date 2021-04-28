@@ -104,15 +104,15 @@ def new_update_listbox(_lbx, _log, _tag):
 
 
 def update_listbox():
-    new_update_listbox(lbx1, log1, 'KBS2.NPW.ByteArray')
-    new_update_listbox(lbx2, log2, 'BV69.NPW.ByteArray')
-    new_update_listbox(lbx3, log3, 'BV70.NPW.ByteArray')
-    new_update_listbox(lbx4, log4, 'BV70A.NPW.ByteArray')
-    new_update_listbox(lbx5, log5, 'BV71.NPW.ByteArray')
-    new_update_listbox(lbx6, log6, 'BV72.NPW.ByteArray')
-    new_update_listbox(lbx7, log7, 'BV72A.NPW.ByteArray')
-    new_update_listbox(lbx8, log8, 'FSD1.NPW.ByteArray')
-    new_update_listbox(lbx9, log9, 'None')
+    new_update_listbox(lbx1, log1, 'NPW_array_PT_3026')
+    new_update_listbox(lbx2, log2, 'NPW_array_PT_69')
+    new_update_listbox(lbx3, log3, 'NPW_array_PT_70')
+    new_update_listbox(lbx4, log4, 'NPW_array_PT_70A')
+    new_update_listbox(lbx5, log5, 'NPW_array_PT_71')
+    new_update_listbox(lbx6, log6, 'NPW_array_PT_72')
+    new_update_listbox(lbx7, log7, 'NPW_array_PT_72A')
+    new_update_listbox(lbx8, log8, 'NPW_array_PT_4025')
+    new_update_listbox(lbx9, log9, 'NPW_array_PT_4026')
 
 
 def export_func():
@@ -413,15 +413,15 @@ label2 = Label(root, text="From").grid(row=7, column=2)
 label3 = Label(root, text="To").grid(row=7, column=3)
 label_log = Label(root, textvariable=log, height=1, width=217, anchor="w", bg='salmon1').grid(row=9, column=0,
                                                                                            columnspan=20, sticky='w')
-label_1 = Label(root, text="KBS", justify=CENTER).grid(row=0, column=0)
+label_1 = Label(root, text="KBS_3026", justify=CENTER).grid(row=0, column=0)
 label_2 = Label(root, text="BV69", justify=CENTER).grid(row=0, column=1)
 label_3 = Label(root, text="BV70", justify=CENTER).grid(row=0, column=2)
 label_4 = Label(root, text="BV70A", justify=CENTER).grid(row=0, column=3)
 label_5 = Label(root, text="BV71", justify=CENTER).grid(row=0, column=4)
 label_6 = Label(root, text="BV72", justify=CENTER).grid(row=0, column=5)
 label_7 = Label(root, text="BV72A", justify=CENTER).grid(row=0, column=6)
-label_8 = Label(root, text="FSD", justify=CENTER).grid(row=0, column=7)
-label_9 = Label(root, text="Not used", justify=CENTER).grid(row=0, column=8)
+label_8 = Label(root, text="FSD1", justify=CENTER).grid(row=0, column=7)
+label_9 = Label(root, text="FSD2", justify=CENTER).grid(row=0, column=8)
 
 mBoxColor = 'pale green'
 mBox1 = Label(root, textvariable=log1, height=1, width=22, anchor="w", bg=mBoxColor).grid(row=4, column=0, sticky='w')

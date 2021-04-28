@@ -1,0 +1,1 @@
+"C:\Python39\pythonw.exe" MQTT_to_DB.py

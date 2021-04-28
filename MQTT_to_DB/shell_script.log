@@ -1,0 +1,3 @@
+INFO:root:Config file read successfully
+INFO:root:Connecting to database: mqttData and table: mfmdata30March
+INFO:root:Connected to database

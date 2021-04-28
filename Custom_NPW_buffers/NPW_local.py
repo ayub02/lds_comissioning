@@ -19,7 +19,7 @@ class define_time:
 def publislhBuffer(buff, _topic=None):
     print(buff)
     mqttclient = mqtt.Client('c1', False)
-    mqttclient.connect(host=mqttHost, port=mqttPort)    # connect to broker
+    mqttclient.connect(host=mqttHost, port=mqttPort)  # connect to broker
     ret = mqttclient.publish(_topic, payload=buff, qos=1)
     sleep(0.5)
     mqttclient.disconnect()
@@ -27,17 +27,18 @@ def publislhBuffer(buff, _topic=None):
 
 # Convert a two digit decimal number into binary coded decimal representation
 def bcd(val):
-    res = val % 100   # we can BCD encode only two digits in one byte
-    res = int(res/10) * 0x10 + res % 10
+    res = val % 100  # we can BCD encode only two digits in one byte
+    res = int(res / 10) * 0x10 + res % 10
     return int(res)
 
 
 # Creates an an array of 8-byte values to represent timestamp buffer as described above
 def createTimeBuffer(t1):
-    timeBuffer = [bcd(t1.year-2000), bcd(t1.month), bcd(t1.day),
-    bcd(t1.hour), bcd(t1.minute), bcd(t1.second),
-    bcd(int(t1.microsecond/10000)),
-    bcd((int((t1.microsecond-int(t1.microsecond/10000)*10000)/1000)*10)) + ([2, 3, 4, 5, 6, 7, 1][t1.weekday()])]
+    timeBuffer = [bcd(t1.year - 2000), bcd(t1.month), bcd(t1.day),
+                  bcd(t1.hour), bcd(t1.minute), bcd(t1.second),
+                  bcd(int(t1.microsecond / 10000)),
+                  bcd((int((t1.microsecond - int(t1.microsecond / 10000) * 10000) / 1000) * 10)) + (
+                  [2, 3, 4, 5, 6, 7, 1][t1.weekday()])]
     return timeBuffer
 
 
@@ -45,7 +46,7 @@ def createTimeBuffer(t1):
 def createDataBuffer():
     dataBuffer = []
     for x in original2byteDataArray:
-        dataBuffer += [(x/256) % 256, x % 256]
+        dataBuffer += [(x / 256) % 256, x % 256]
     return dataBuffer
 
 
@@ -61,9 +62,12 @@ config.read('../config/NPW.ini')
 mqttHost = config['Kepware']['mqttHost']
 mqttPort = int(config['Kepware']['mqttPort'])
 
-
 dict1 = {'MKT_out': 0, 'MOV60': 397.5, 'BV61': 18691, 'BV62': 20097, 'BV63': 42458, 'BV64': 42879,
-         'BV65': 90166.6, 'BV66': 90447.7, 'MOV67': 150005, 'KBS_in': 150502.5}
+         'BV65': 90166.6, 'BV66': 90447.7, 'MOV67': 150005, 'KBS_in': 150502.5, 'KBS_out': 150502.5, 'MOV68': 151137,
+         'BV69': 170633, 'BV70': 175022, 'BV70A': 211423, 'BV71': 239507, 'BV72': 239665, 'BV72A': 273704,
+         'MOV73': 283380, 'FSD_in': 283912, 'FSD_out': 283912, 'MOV74': 284521, 'BV74A': 318092, 'BV75': 354986,
+         'BV76': 355398, 'MOV77': 363080, 'MCK_in': 363511}
+
 cases = pd.read_excel('../data/NPW_cases.xlsx', sheet_name=0)
 
 # Stations on which to send leak wave data
@@ -75,31 +79,30 @@ case = cases[case_name].tolist()
 delay_between_topics = int(config['Scenarios']['delay_between_topics'])
 
 # Leak location for which pressure wave time stamps will be generated
-leak_location = float(config['Scenarios']['leak_location'])                        # m
+leak_location = float(config['Scenarios']['leak_location'])  # m
 
 # Speed of sound to be used for generating time stamps
-speedOfsound = float(config['Scenarios']['speedOfsound'])                      # m/s
+speedOfsound = float(config['Scenarios']['speedOfsound'])  # m/s
 
 # Current time to used as zero reference
 now_time = datetime.now()
 print('Original:', now_time)
 
 # Distance of stations relative to leak location
-rel_distances = {key: abs(val-leak_location) for key, val in dict1.items()}
+rel_distances = {key: abs(val - leak_location) for key, val in dict1.items()}
 
 # Arrival time of wave at each station relative to time at which the leak is generated (0 seconds)
-rel_times = {key: val/speedOfsound for key, val in rel_distances.items()}
+rel_times = {key: val / speedOfsound for key, val in rel_distances.items()}
 
 for i, topic in enumerate(topics):
-    original2byteDataArray = [val*500 for val in case]
-    completeDataBuffer = createTimeBuffer(now_time+timedelta(seconds=rel_times[topic])) + createDataBuffer()
-    print(now_time+timedelta(seconds=rel_times[topic]))
+    original2byteDataArray = [val * 500 for val in case]
+    completeDataBuffer = createTimeBuffer(now_time + timedelta(seconds=rel_times[topic])) + createDataBuffer()
+    print(now_time + timedelta(seconds=rel_times[topic]))
     print(len(completeDataBuffer))
     byteArrayJson = convertToJsonArray(completeDataBuffer)
     print('byteArrayJson', byteArrayJson)
     publislhBuffer(byteArrayJson, topic)
     sleep(delay_between_topics)
-
 
 # print(len(original2byteDataArray))
 # plt.plot(original2byteDataArray)
